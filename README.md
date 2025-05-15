@@ -96,8 +96,7 @@ GET /inventory-service/prod?format=properties
 ## 🔁 Retrieve From Specific Commit
 
 ```http
-GET 
-/user-service/dev?commit=<commit-hash>
+GET /user-service/dev?commit=<commit-hash>
 ```
 
 - Returns config as it existed at the specified commit
@@ -150,4 +149,3 @@ MIT — free to use, extend, and contribute.
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to submit pull requests or open issues.
->>>>>>> master
