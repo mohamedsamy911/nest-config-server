@@ -19,7 +19,7 @@ A lightweight, Git-backed **centralized configuration service**, inspired by Spr
 | 🕘 Git versioning                | Serve config from the **last committed version**, or any specific commit |
 | ✅ YAML syntax validation        | Ensures only syntactically valid YAML is served                          |
 | ⚙️ Configurable repo path        | Git repo location via `.env` (`CONFIG_REPO`)                             |
-| 🔄 Dynamic profile-based routing | URLs follow `/config/:application/:profile` structure                    |
+| 🔄 Dynamic profile-based routing | URLs follow `/:application/:profile` structure                    |
 | 📎 Commit pinning                | Use `?commit=<hash>` to retrieve historical versions                     |
 
 ---
