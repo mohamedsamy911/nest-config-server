@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# nest-config-server
-=======
 # 🛠️ NestJS Config Server
 
 A lightweight, Git-backed **centralized configuration service**, inspired by Spring Cloud Config, built using **NestJS**. It serves versioned configuration files (`.yml`, `.yaml`, `.properties`) over HTTP with support for:
