@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Query, Res } from '@nestjs/common';
 import { ConfigService } from './config.service';
+import * as path from 'path';
 import { Response } from 'express';
 
 @Controller()
@@ -32,8 +33,34 @@ export class ConfigController {
     }
   }
 
-  @Get('commits')
-  async listCommits() {
-    return this.configService.listCommits();
+  @Get(':fileName')
+  async getConfigFile(
+    @Param('fileName') fileName: string,
+    @Res() res: Response,
+    @Query('commit') commitHash?: string,
+  ) {
+    try {
+      const ext = path.extname(fileName).slice(1); // Get the file extension
+      if (!['yml', 'yaml', 'properties'].includes(ext)) {
+        return res.status(400).send({
+          error: 'Invalid file extension',
+          message: 'Only .yml, .yaml, and .properties files are supported',
+          fileName,
+        });
+      }
+      const content = await this.configService.gitConfigFile(
+        fileName,
+        ext,
+        commitHash,
+      );
+      const contentType = ext === 'properties' ? 'text/plain' : 'text/yaml';
+      res.setHeader('Content-Type', contentType);
+      res.send(content);
+    } catch (error) {
+      res.status(500).send({
+        error: 'Failed to retrieve configuration file',
+        message: error.message,
+      });
+    }
   }
 }

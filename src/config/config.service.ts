@@ -51,12 +51,27 @@ export class ConfigService {
         return content;
     }
 
-    async listCommits(): Promise<any[]> {
-        const log = await this.git.log();
-        return log.all.map((commit) => ({
-            hash: commit.hash,
-            message: commit.message,
-            date: commit.date,
-        }));
+    async gitConfigFile(fileName: string, format: string, commitHash = 'HEAD',): Promise<string> {
+        const ext = format === 'yaml' ? 'yml' : format; // normalize .yaml to .yml
+        let content: string;
+
+        try {
+            content = await this.git.show(`${commitHash}:${fileName.replace('.yaml', '.yml')}`);
+        } catch (err) {
+            if (err.message.includes('not exist')) {
+                throw new NotFoundException(`Cannot find ${fileName} at ${commitHash}`);
+            }
+            throw new Error(`Failed to retrieve ${fileName} at ${commitHash}: ${err.message}`);
+        }
+
+        // ✅ Validate YAML syntax only if it's a YAML file
+        if (ext === 'yml') {
+            try {
+                YAML.parse(content);
+            } catch (err) {
+                throw new Error(`Invalid YAML format: ${err.message}`);
+            }
+            return content;
+        }
     }
 }

@@ -91,12 +91,27 @@ GET /inventory-service/prod?format=properties
 - Returns `inventory-service-prod.properties`
 - Content-Type: `text/plain`
 
+---
+
+🔹 Get Config by file name
+
+```http
+GET /inventory-service-prod.yml
+```
+
+- Returns `inventory-service-prod.yml`
+- Content-Type: `text/yaml`
+
 
 
 ## 🔁 Retrieve From Specific Commit
 
 ```http
 GET /user-service/dev?commit=<commit-hash>
+```
+OR
+```http
+GET /user-service-dev.yml?commit=<commit-hash>
 ```
 
 - Returns config as it existed at the specified commit
